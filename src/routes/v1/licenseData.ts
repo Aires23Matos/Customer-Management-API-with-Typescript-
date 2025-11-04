@@ -53,7 +53,7 @@ const createLicenseDataValidation = [
 		.withMessage('Validade deve ser entre 1 e 120 meses'),
 	body('conta_pago')
 		.optional()
-		.isIn(['Pago', 'Não Pago', 'Pendente'])
+		.isIn(['Pago', 'Não Pago', 'Pendente', 'Parcial'])
 		.withMessage('Estado deve ser: Pago, Não Pago ou Pendente'),
 	body('valor_pago')
 		.optional()
@@ -166,7 +166,7 @@ router.get(
 );
 
 router.put(
-	'/:license_id',
+	'/update/:license_id',
 	authentication,
 	authorize(['admin', 'user']),
 	updateLicenseDataValidation,

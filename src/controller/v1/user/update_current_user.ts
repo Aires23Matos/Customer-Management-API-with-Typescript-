@@ -26,7 +26,7 @@ const updateCurrentUser = async (
         if(last_name) user.lastName = last_name;
 
         await user.save();
-        logger.info('User update successfully', user);~
+        logger.info('User update successfully', user);
 
         res.status(200).json({
             user,

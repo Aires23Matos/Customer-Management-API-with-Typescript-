@@ -57,7 +57,7 @@ const updateLicenseDataById = async (
         const updateData: any = {};
 
         // Atualizar campos se fornecidos
-        if (tecnico) {
+        if (tecnico !== undefined) {
             const sanitizedTecnico = purify.sanitize(tecnico.toString().trim());
             if (sanitizedTecnico.length < 2 || sanitizedTecnico.length > 100) {
                 res.status(400).json({
@@ -69,7 +69,7 @@ const updateLicenseDataById = async (
             updateData.tecnico = sanitizedTecnico;
         }
 
-        if (numeroLicenca) {
+        if (numeroLicenca !== undefined) {
             const sanitizedNumeroLicenca = purify.sanitize(numeroLicenca.toString().trim().toUpperCase());
             
             // Verificar se novo número já existe noutra licença
@@ -89,7 +89,7 @@ const updateLicenseDataById = async (
             updateData.numeroLicenca = sanitizedNumeroLicenca;
         }
 
-        if (hora_de_formacao) {
+        if (hora_de_formacao !== undefined) {
             const sanitizedHora = purify.sanitize(hora_de_formacao.toString().trim());
             const horaRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
             if (!horaRegex.test(sanitizedHora)) {
@@ -102,7 +102,7 @@ const updateLicenseDataById = async (
             updateData.hora_de_formacao = sanitizedHora;
         }
 
-        if (validade_em_mes) {
+        if (validade_em_mes !== undefined) {
             if (validade_em_mes < 1 || validade_em_mes > 120) {
                 res.status(400).json({
                     code: 'InvalidField',
@@ -124,19 +124,19 @@ const updateLicenseDataById = async (
             updateData.valor_pago = valor_pago;
         }
 
-        if (conta_pago) {
-            const estadosPagamento = ['Pago', 'Não Pago', 'Pendente'];
+        if (conta_pago !== undefined) {
+            const estadosPagamento = ['Pago', 'Não Pago', 'Pendente', 'Parcial'];
             if (!estadosPagamento.includes(conta_pago)) {
                 res.status(400).json({
                     code: 'InvalidField',
-                    message: 'Estado de pagamento deve ser: Pago, Não Pago ou Pendente'
+                    message: 'Estado de pagamento deve ser: Pago, Não Pago, Pendente ou Parcial'
                 });
                 return;
             }
             updateData.conta_pago = conta_pago;
         }
 
-        if (estado) {
+        if (estado !== undefined) {
             const estadosValidos = ['ativa', 'expirada', 'suspensa', 'pendente'];
             if (!estadosValidos.includes(estado)) {
                 res.status(400).json({
@@ -148,43 +148,104 @@ const updateLicenseDataById = async (
             updateData.estado = estado;
         }
 
-        // Validar datas se fornecidas
-        if (data_da_instalacao || data_da_ativacao || data_da_expiracao) {
-            const dataInstalacao = data_da_instalacao ? new Date(data_da_instalacao) : existingLicense.data_da_instalacao;
-            const dataAtivacao = data_da_ativacao ? new Date(data_da_ativacao) : existingLicense.data_da_ativacao;
-            const dataExpiracao = data_da_expiracao ? new Date(data_da_expiracao) : existingLicense.data_da_expiracao;
+        // VALIDAÇÃO CORRIGIDA DAS DATAS
+        if (data_da_instalacao !== undefined || data_da_ativacao !== undefined || data_da_expiracao !== undefined) {
+            // Usar valores existentes para campos não fornecidos
+            const dataInstalacao = data_da_instalacao !== undefined 
+                ? new Date(data_da_instalacao) 
+                : existingLicense.data_da_instalacao;
+            
+            const dataAtivacao = data_da_ativacao !== undefined 
+                ? new Date(data_da_ativacao) 
+                : existingLicense.data_da_ativacao;
+            
+            const dataExpiracao = data_da_expiracao !== undefined 
+                ? new Date(data_da_expiracao) 
+                : existingLicense.data_da_expiracao;
 
-            if (data_da_instalacao && dataInstalacao > new Date()) {
-                res.status(400).json({
-                    code: 'InvalidField',
-                    message: 'Data de instalação não pode ser futura'
-                });
-                return;
+            // Normalizar datas para comparar apenas a parte da data (ignorar horas)
+            const normalizeDate = (date: Date) => {
+                return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            };
+
+            const instalacaoNormalizada = normalizeDate(dataInstalacao);
+            const ativacaoNormalizada = normalizeDate(dataAtivacao);
+            const expiracaoNormalizada = normalizeDate(dataExpiracao);
+            const hojeNormalizado = normalizeDate(new Date());
+
+            // Validação de data de instalação
+            if (data_da_instalacao !== undefined) {
+                if (instalacaoNormalizada > hojeNormalizado) {
+                    res.status(400).json({
+                        code: 'InvalidField',
+                        message: 'Data de instalação não pode ser futura'
+                    });
+                    return;
+                }
+                updateData.data_da_instalacao = dataInstalacao;
             }
 
-            if (data_da_ativacao && dataAtivacao < dataInstalacao) {
-                res.status(400).json({
-                    code: 'InvalidField',
-                    message: 'Data de ativação deve ser posterior ou igual à data de instalação'
-                });
-                return;
+            // Validação de data de ativação
+            if (data_da_ativacao !== undefined) {
+                if (ativacaoNormalizada < instalacaoNormalizada) {
+                    res.status(400).json({
+                        code: 'InvalidField',
+                        message: 'Data de ativação deve ser posterior ou igual à data de instalação'
+                    });
+                    return;
+                }
+                updateData.data_da_ativacao = dataAtivacao;
             }
 
-            if (data_da_expiracao && dataExpiracao <= dataAtivacao) {
-                res.status(400).json({
-                    code: 'InvalidField',
-                    message: 'Data de expiração deve ser posterior à data de ativação'
-                });
-                return;
+            // Validação de data de expiração
+            if (data_da_expiracao !== undefined) {
+                if (expiracaoNormalizada <= ativacaoNormalizada) {
+                    res.status(400).json({
+                        code: 'InvalidField',
+                        message: 'Data de expiração deve ser posterior à data de ativação'
+                    });
+                    return;
+                }
+                updateData.data_da_expiracao = dataExpiracao;
             }
 
-            if (data_da_instalacao) updateData.data_da_instalacao = dataInstalacao;
-            if (data_da_ativacao) updateData.data_da_ativacao = dataAtivacao;
-            if (data_da_expiracao) updateData.data_da_expiracao = dataExpiracao;
+            // Validações cruzadas quando múltiplas datas são atualizadas
+            if ((data_da_instalacao !== undefined || data_da_ativacao !== undefined) && 
+                !(data_da_instalacao !== undefined && data_da_ativacao !== undefined)) {
+                // Se apenas uma das duas (instalação ou ativação) foi atualizada
+                const instalacaoFinal = data_da_instalacao !== undefined ? dataInstalacao : existingLicense.data_da_instalacao;
+                const ativacaoFinal = data_da_ativacao !== undefined ? dataAtivacao : existingLicense.data_da_ativacao;
+                
+                if (normalizeDate(ativacaoFinal) < normalizeDate(instalacaoFinal)) {
+                    res.status(400).json({
+                        code: 'InvalidField',
+                        message: 'Data de ativação deve ser posterior ou igual à data de instalação'
+                    });
+                    return;
+                }
+            }
+
+            if ((data_da_ativacao !== undefined || data_da_expiracao !== undefined) && 
+                !(data_da_ativacao !== undefined && data_da_expiracao !== undefined)) {
+                // Se apenas uma das duas (ativação ou expiração) foi atualizada
+                const ativacaoFinal = data_da_ativacao !== undefined ? dataAtivacao : existingLicense.data_da_ativacao;
+                const expiracaoFinal = data_da_expiracao !== undefined ? dataExpiracao : existingLicense.data_da_expiracao;
+                
+                if (normalizeDate(expiracaoFinal) <= normalizeDate(ativacaoFinal)) {
+                    res.status(400).json({
+                        code: 'InvalidField',
+                        message: 'Data de expiração deve ser posterior à data de ativação'
+                    });
+                    return;
+                }
+            }
         }
 
-        // Validar consistência do pagamento
-        if (updateData.conta_pago === 'Pago' && (updateData.valor_pago || existingLicense.valor_pago) <= 0) {
+        // Validar consistência do pagamento (CORRIGIDO)
+        const contaPagoFinal = updateData.conta_pago !== undefined ? updateData.conta_pago : existingLicense.conta_pago;
+        const valorPagoFinal = updateData.valor_pago !== undefined ? updateData.valor_pago : existingLicense.valor_pago;
+
+        if (contaPagoFinal === 'Pago' && valorPagoFinal <= 0) {
             res.status(400).json({
                 code: 'InvalidField',
                 message: 'Licença marcada como paga deve ter valor pago maior que 0'
@@ -192,17 +253,47 @@ const updateLicenseDataById = async (
             return;
         }
 
-        // Atualizar licença
+        if (contaPagoFinal === 'Parcial' && valorPagoFinal <= 0) {
+            res.status(400).json({
+                code: 'InvalidField',
+                message: 'Licença marcada como parcial deve ter valor pago maior que 0'
+            });
+            return;
+        }
+
+        // Se não há dados para atualizar
+        if (Object.keys(updateData).length === 0) {
+            res.status(400).json({
+                code: 'NoDataToUpdate',
+                message: 'Nenhum dado fornecido para atualização'
+            });
+            return;
+        }
+
+        // Atualizar licença com opções que funcionam para atualizações parciais
         const licenseAtualizada = await LicenseData.findByIdAndUpdate(
             license_id,
             updateData,
-            { new: true, runValidators: true }
+            { 
+                new: true, 
+                runValidators: false, // Desativar validadores do Mongoose para evitar conflitos
+                context: 'query'
+            }
         );
+
+        if (!licenseAtualizada) {
+            res.status(404).json({
+                code: 'LicenseNotFound',
+                message: 'Licença não encontrada após atualização'
+            });
+            return;
+        }
 
         logger.info('Licença atualizada com sucesso', {
             userId,
             license_id,
-            client_id: existingLicense.client_id
+            client_id: existingLicense.client_id,
+            updatedFields: Object.keys(updateData)
         });
 
         res.status(200).json({
@@ -217,6 +308,15 @@ const updateLicenseDataById = async (
             license_id,
             error: err instanceof Error ? err.message : err
         });
+
+        // Tratamento específico para erros de cast
+        if (err instanceof Error && err.name === 'CastError') {
+            res.status(400).json({
+                code: 'InvalidLicenseId',
+                message: 'ID da licença inválido'
+            });
+            return;
+        }
 
         res.status(500).json({
             code: 'ServerError',

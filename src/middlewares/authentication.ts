@@ -26,7 +26,7 @@ const authentication = (req: Request, res: Response, next: NextFunction) => {
     if(err instanceof TokenExpiredError){
        res.status(401).json({
         code: 'AuthenticationError',
-        message: 'Token de acesso expirado, solicite um novo com token de atualização',
+        message: 'Tempo de acesso expirado, solicite um novo com token de atualização',
        });
        return; 
     }
@@ -34,7 +34,7 @@ const authentication = (req: Request, res: Response, next: NextFunction) => {
     if(err instanceof JsonWebTokenError){
         res.status(401).json({
             code: 'AuthenticationError',
-            message: 'Token de acesso inválido'
+            message: 'Dado de acesso inválido'
         })
         return;
     }

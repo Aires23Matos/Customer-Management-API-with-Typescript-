@@ -55,9 +55,9 @@ router.get(
 );
 
 router.put(
-	'/:current_id',
-	authorize(['admin', 'user']),
+	'/update/:current_id',
 	authentication,
+	authorize(['admin', 'user']),
 	body('username')
 		.optional()
 		.trim()
@@ -65,7 +65,6 @@ router.put(
 		.withMessage('O nome de usuário deve ter menos de 20 caracteres')
 		.custom(async (value) => {
 			const userExist = await User.exists({ username: value });
-
 			if (userExist) {
 				throw Error('Este nome de utilizador já está a ser utilizado');
 			}
@@ -78,7 +77,6 @@ router.put(
 		.withMessage('Endereço de e-mail inválido')
 		.custom(async (value) => {
 			const useExist = await User.exists({ email: value });
-
 			if (useExist) {
 				throw Error('Este e-mail já está em uso');
 			}
@@ -95,8 +93,7 @@ router.put(
 		.optional()
 		.isLength({ max: 20 })
 		.withMessage('O sobrenome deve ter menos de 20 caracteres'),
-	ValidationError,
-	
+	ValidationError,	
 	updateCurrentUser,
 );
 

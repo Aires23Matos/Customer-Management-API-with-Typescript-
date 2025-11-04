@@ -10,7 +10,7 @@ export interface ILicenseData extends Document {
 	data_da_instalacao: Date;
 	hora_de_formacao: string;
 	validade_em_mes: number;
-	conta_pago: 'Pago' | 'Não Pago' | 'Pendente';
+	conta_pago: 'Pago' | 'Não Pago' | 'Pendente' | 'Parcial';
 	valor_pago: number;
 	estado: 'ativa' | 'expirada' | 'suspensa' | 'pendente';
 	publishedAt?: Date;
@@ -95,7 +95,7 @@ const licenseDataSchema = new Schema<ILicenseData>(
 			type: String,
 			required: [true, 'O estado do pagamento é obrigatório'],
 			enum: {
-				values: ['Pago', 'Não Pago', 'Pendente'],
+				values: ['Pago', 'Não Pago', 'Pendente', 'Parcial'],
 				message: 'Estado deve ser: Pago, Não Pago ou Pendente',
 			},
 			default: 'Pendente',
