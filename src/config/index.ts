@@ -12,10 +12,8 @@ const Config = {
 	jwt_access_refresh: process.env.JWT_REFRESH_SECRET || '52257f3c19e8f6eb3745a2d9c1de6611',
 	access_token_expiry:process.env.ACCESS_TOKEN_EXPIRY as ms.StringValue,
 	refresh_token_expiry:process.env.REFRESH_TOKEN_EXPIRY as ms.StringValue,
-	whitelist_admins_mail: [
-		'manuel.francisco@emezenza.ao',
-		'testeemezema@gmail.com'
-	],
+	whitelist_admins_mail: process.env.SECRET_EMAIL || 'testeemezema@gmail.com',
+	
 	defaultResLimit: 20,
 	defaultResOffset: 0
 };
