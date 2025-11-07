@@ -13,7 +13,7 @@ const Config = {
 	access_token_expiry:process.env.ACCESS_TOKEN_EXPIRY as ms.StringValue,
 	refresh_token_expiry:process.env.REFRESH_TOKEN_EXPIRY as ms.StringValue,
 	whitelist_admins_mail: [
-		'geralemeze123me@gmail.com',
+		'manuel.francisco@emezenza.ao',
 		'testeemezema@gmail.com'
 	],
 	defaultResLimit: 20,

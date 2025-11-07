@@ -26,6 +26,7 @@ const createLicenseData = async (
         const {
             client_id,
             tecnico,
+            localizacao,
             numeroLicenca,
             data_da_instalacao,
             data_da_ativacao,
@@ -39,7 +40,7 @@ const createLicenseData = async (
 
         // Validar campos obrigatórios
         const requiredFields = [
-            'client_id', 'tecnico', 'numeroLicenca', 'data_da_instalacao',
+            'client_id', 'tecnico', 'localizacao', 'numeroLicenca', 'data_da_instalacao',
             'data_da_ativacao', 'data_da_expiracao', 'hora_de_formacao', 'validade_em_mes'
         ];
 
@@ -65,6 +66,7 @@ const createLicenseData = async (
         // Sanitizar dados
         const sanitizedData = {
             tecnico: purify.sanitize(tecnico.toString().trim()),
+            localizacao:  purify.sanitize(localizacao.toString().trim()),
             numeroLicenca: purify.sanitize(numeroLicenca.toString().trim().toUpperCase()),
             hora_de_formacao: purify.sanitize(hora_de_formacao.toString().trim())
         };
@@ -74,6 +76,14 @@ const createLicenseData = async (
             res.status(400).json({
                 code: 'InvalidField',
                 message: 'Nome do técnico deve ter entre 2 e 100 caracteres'
+            });
+            return;
+        }
+
+         if (sanitizedData.localizacao.length < 2 || sanitizedData.localizacao.length > 100) {
+            res.status(400).json({
+                code: 'InvalidField',
+                message: 'Localização deve ter entre 2 e 100 caracteres'
             });
             return;
         }

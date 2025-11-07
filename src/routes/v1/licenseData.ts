@@ -21,6 +21,13 @@ const createLicenseDataValidation = [
 		.withMessage('Nome do técnico deve ter entre 2 e 100 caracteres')
 		.trim()
 		.escape(),
+	body('localizacao')
+		.notEmpty()
+		.withMessage('localizacão é obrigatório')
+		.isLength({ min: 2, max: 100 })
+		.withMessage('localizacão deve ter entre 2 e 100 caracteres')
+		.trim()
+		.escape(),
 	body('numeroLicenca')
 		.notEmpty()
 		.withMessage('Número da licença é obrigatório')

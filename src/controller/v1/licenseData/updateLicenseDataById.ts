@@ -43,6 +43,7 @@ const updateLicenseDataById = async (
 
         const {
             tecnico,
+            localizacao,
             numeroLicenca,
             data_da_instalacao,
             data_da_ativacao,
@@ -67,6 +68,18 @@ const updateLicenseDataById = async (
                 return;
             }
             updateData.tecnico = sanitizedTecnico;
+        }
+
+         if (localizacao !== undefined) {
+            const sanitizedLocalizacao = purify.sanitize(localizacao.toString().trim());
+            if (sanitizedLocalizacao.length < 2 || sanitizedLocalizacao.length > 100) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Nome do técnico deve ter entre 2 e 100 caracteres'
+                });
+                return;
+            }
+            updateData.localizacao = sanitizedLocalizacao;
         }
 
         if (numeroLicenca !== undefined) {

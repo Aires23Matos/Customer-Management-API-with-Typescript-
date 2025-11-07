@@ -4,6 +4,7 @@ export interface ILicenseData extends Document {
 	_id: Types.ObjectId;
 	client_id: String;
 	tecnico: string;
+	localizacao: string;
 	numeroLicenca: string;
 	data_da_ativacao: Date;
 	data_da_expiracao: Date;
@@ -29,6 +30,13 @@ const licenseDataSchema = new Schema<ILicenseData>(
 			trim: true,
 			minlength: [2, 'Nome do técnico deve ter pelo menos 2 caracteres'],
 			maxlength: [100, 'Nome do técnico não pode exceder 100 caracteres'],
+		},
+		localizacao: {
+			type: String,
+			required: [true, 'Localização é obrigatório'],
+			trim: true,
+			minlength: [2, 'Localização deve ter pelo menos 2 caracteres'],
+			maxlength: [100, 'Localização não pode exceder 100 caracteres'],
 		},
 		numeroLicenca: {
 			type: String,
