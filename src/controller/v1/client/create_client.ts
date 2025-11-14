@@ -48,7 +48,7 @@ const createClient = async (
 
         // Sanitizar dados
         const sanitizedClientName = purify.sanitize(clientName.toString().trim());
-        const sanitizedNif = parseInt(nif.toString().trim());
+        const sanitizedNif = purify.sanitize(nif.toString().trim());
 
         // Validar comprimento do nome
         if (sanitizedClientName.length > 20) {
@@ -59,11 +59,12 @@ const createClient = async (
             return;
         }
 
-        // Validar NIF (9 dígitos)
-        if (!/^\d{9}$/.test(sanitizedNif.toString())) {
+        // Validar NIF (10 dígitos OU 14 dígitos podendo conter letras)
+        const nifRegex = /^(?:\d{10}|[A-Za-z0-9]{14})$/
+        if (!nifRegex.test(sanitizedNif)) {
             res.status(400).json({
                 code: 'InvalidField',
-                message: 'O NIF deve ter exatamente 9 dígitos numéricos'
+                message: 'O NIF deve ter exatamente 10 dígitos numéricos OU 14 caracteres alfanuméricos'
             });
             return;
         }

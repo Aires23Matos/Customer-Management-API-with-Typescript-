@@ -61,7 +61,7 @@ app.use(Limiter);
 		app.use('/api/v1', v1Route);
 
 		app.listen(PORT, () => {
-			logger.info(`Server Runing http://localhost:${PORT}`);
+			logger.info(`erverS Runing http://localhost:${PORT}`);
 		});
 	} catch (err) {
 		logger.error('Falha ao iniciar o servidor', err);

@@ -69,11 +69,14 @@ const updateClient = async (
         }
 
         if (nif) {
-            updateData.nif = parseInt(nif.toString().trim());
-            if (!/^\d{9}$/.test(updateData.nif.toString())) {
+            updateData.nif = purify.sanitize(nif.toString().trim());
+            
+            // Validar NIF (9 dígitos OU 14 dígitos podendo conter letras)
+            const nifRegex = /^(?:\d{9}|[A-Za-z0-9]{14})$/
+            if (!nifRegex.test(updateData.nif)) {
                 res.status(400).json({
                     code: 'InvalidField',
-                    message: 'O NIF deve ter exatamente 9 dígitos numéricos'
+                    message: 'O NIF deve ter exatamente 9 dígitos numéricos OU 14 caracteres alfanuméricos'
                 });
                 return;
             }

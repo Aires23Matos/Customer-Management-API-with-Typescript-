@@ -23,10 +23,10 @@ const updateClientValidation = [
 		.escape(),
 	body('nif')
 		.optional()
-		.isNumeric()
+		.isString()
 		.withMessage('NIF deve conter apenas números')
-		.isLength({ min: 9, max: 9 })
-		.withMessage('NIF deve ter exatamente 9 dígitos'),
+		.isLength({ min: 10, max: 14 })
+		.withMessage('NIF deve ter exatamente 14 dígitos'),
 	body('enderecos').optional().isArray(),
 	body('contatos').optional().isArray(),
 	body('licencas').optional().isArray(),
