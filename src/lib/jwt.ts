@@ -1,5 +1,5 @@
 import  jwt  from "jsonwebtoken";
-import Config from "src/config";
+import Config from "../config";
 import { Types } from "mongoose";
 
 

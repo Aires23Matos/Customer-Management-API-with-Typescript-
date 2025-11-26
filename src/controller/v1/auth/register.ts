@@ -1,11 +1,11 @@
-import { logger } from "src/lib/winston";
-import Config from "src/config";
-import User from "src/models/user";
-import Token from "src/models/tokens";
-import type { IUser } from "src/models/user";
+import { logger } from "../../../lib/winston";
+import Config from "../../../config";
+import User from "../../../models/user";
+import Token from "../../../models/tokens";
+import type { IUser } from "../../../models/user";
 import type {Request, Response} from 'express';
-import { genUsername } from "src/utils";
-import { generateAccessToken, generateRefreshToken } from "src/lib/jwt";
+import { genUsername } from "../../../utils";
+import { generateAccessToken, generateRefreshToken } from "../../../lib/jwt";
 
 type UserData = Pick<IUser, 'email' |'password'|'role'>& {
     firstName?: string;
