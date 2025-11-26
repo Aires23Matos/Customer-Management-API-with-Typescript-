@@ -12,7 +12,7 @@ const getAllClients_1 = __importDefault(require("../../controller/v1/client/getA
 const getClientById_1 = __importDefault(require("../../controller/v1/client/getClientById"));
 const updateClient_1 = __importDefault(require("../../controller/v1/client/updateClient"));
 const deleteClient_1 = __importDefault(require("../../controller/v1/client/deleteClient"));
-const blockedClientsController_1 = require("@/controller/v1/client/blockedClientsController");
+const blockedClientsController_1 = require("../../controller/v1/client/blockedClientsController");
 const router = (0, express_1.Router)();
 const clientIdValidation = [
     (0, express_validator_1.param)('client_id').notEmpty().withMessage('ID do cliente é obrigatório'),
