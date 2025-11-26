@@ -1,10 +1,10 @@
-import { generateAccessToken, generateRefreshToken } from "src/lib/jwt";
+import { generateAccessToken, generateRefreshToken } from "../../../lib/jwt";
 import { logger } from "../../../lib/winston";
 import Config from "../../../config";
 import Token from "../../../models/tokens";
 import User from "../../../models/user";
 import type { Request, Response } from "express";
-import type { IUser} from 'src/models/user';
+import type { IUser} from '../../../models/user';
 
 type UserData = Pick<IUser, 'email'|'password'>
 

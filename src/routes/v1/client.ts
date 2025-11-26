@@ -12,7 +12,7 @@ import {
     unblockClient,
     getBlockedClients,
     checkClientBlockStatus
-} from '@/controller/v1/client/blockedClientsController';
+} from '../../controller/v1/client/blockedClientsController';
 
 const router = Router();
 
