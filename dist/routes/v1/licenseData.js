@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const authentication_1 = __importDefault(require("@/middlewares/authentication"));
-const validationError_1 = __importDefault(require("@/middlewares/validationError"));
-const authorize_1 = __importDefault(require("@/middlewares/authorize"));
-const deleteLicenseDataById_1 = __importDefault(require("@/controller/v1/licenseData/deleteLicenseDataById"));
-const updateLicenseDataById_1 = __importDefault(require("@/controller/v1/licenseData/updateLicenseDataById"));
-const getLicenseDataById_1 = __importDefault(require("@/controller/v1/licenseData/getLicenseDataById"));
-const getLicensesData_1 = __importDefault(require("@/controller/v1/licenseData/getLicensesData"));
-const createLicenseData_1 = __importDefault(require("@/controller/v1/licenseData/createLicenseData"));
+const authentication_1 = __importDefault(require("../../middlewares/authentication"));
+const validationError_1 = __importDefault(require("../../middlewares/validationError"));
+const authorize_1 = __importDefault(require("../../middlewares/authorize"));
+const deleteLicenseDataById_1 = __importDefault(require("../../controller/v1/licenseData/deleteLicenseDataById"));
+const updateLicenseDataById_1 = __importDefault(require("../../controller/v1/licenseData/updateLicenseDataById"));
+const getLicenseDataById_1 = __importDefault(require("../../controller/v1/licenseData/getLicenseDataById"));
+const getLicensesData_1 = __importDefault(require("../../controller/v1/licenseData/getLicensesData"));
+const createLicenseData_1 = __importDefault(require("../../controller/v1/licenseData/createLicenseData"));
 const router = (0, express_1.Router)();
 const createLicenseDataValidation = [
     (0, express_validator_1.body)('client_id').notEmpty().withMessage('client_id é obrigatório'),

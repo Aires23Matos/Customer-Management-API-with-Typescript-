@@ -1,8 +1,8 @@
-import { logger } from "src/lib/winston";
-import Token from "src/models/tokens";
-import Config from "src/config";
+import { logger } from "../../../lib/winston";
+import Token from "../../../models/tokens";
+import Config from "../../../config";
 import { Response, Request } from "express";
-import RefreshToken from 'src/controller/v1/auth/refresh_token';
+import RefreshToken from '../../../controller/v1/auth/refresh_token';
 
 const Logout = async(req: Request, res: Response): Promise<void> => {
     try{

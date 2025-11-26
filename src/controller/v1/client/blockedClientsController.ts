@@ -1,13 +1,13 @@
 // controllers/blockedClientsController.ts
 import DOMPurify from "dompurify"
 import { JSDOM } from "jsdom"
-import { logger } from "@/lib/winston"
-import Client from "@/models/client"
-import address from "@/models/address"
-import licenseData from "@/models/licenseData"
-import accountable from "@/models/accountable"
+import { logger } from "../../../lib/winston"
+import Client from "../../../models/client"
+import address from "../../../models/address"
+import licenseData from "../../../models/licenseData"
+import accountable from "../../../models/accountable"
 import type { Response, Request } from "express"
-import contact from "@/models/contact"
+import contact from "../../../models/contact"
 
 const window = new JSDOM('').window;
 const purify = DOMPurify(window);

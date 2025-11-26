@@ -1,6 +1,6 @@
-import { logger } from "@/lib/winston"
-import Accountable from "@/models/accountable"
-import Client from "@/models/client"
+import { logger } from "../../../lib/winston"
+import Accountable from "../../../models/accountable"
+import Client from "../../../models/client"
 import type { Response, Request } from "express"
 
 const getAccountables = async (

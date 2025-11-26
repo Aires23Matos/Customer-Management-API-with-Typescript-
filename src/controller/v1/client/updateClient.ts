@@ -1,11 +1,11 @@
 import DOMPurify from "dompurify"
 import { JSDOM } from "jsdom"
-import { logger } from "@/lib/winston"
-import Client from "@/models/client"
-import Address from "@/models/address"
-import Contact from "@/models/contact"
-import LicenseData from "@/models/licenseData"
-import Accountable from "@/models/accountable"
+import { logger } from "../../../lib/winston"
+import Client from "../../../models/client"
+import Address from "../../../models/address"
+import Contact from "../../../models/contact"
+import LicenseData from "../../../models/licenseData"
+import Accountable from "../../../models/accountable"
 import type { Response, Request } from "express"
 
 const window = new JSDOM('').window;

@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const authentication_1 = __importDefault(require("@/middlewares/authentication"));
-const validationError_1 = __importDefault(require("@/middlewares/validationError"));
-const authorize_1 = __importDefault(require("@/middlewares/authorize"));
-const createAddress_1 = __importDefault(require("@/controller/v1/address/createAddress"));
-const getAddresses_1 = __importDefault(require("@/controller/v1/address/getAddresses"));
-const getAddressById_1 = __importDefault(require("@/controller/v1/address/getAddressById"));
-const updateAddressById_1 = __importDefault(require("@/controller/v1/address/updateAddressById"));
-const deleteAddressById_1 = __importDefault(require("@/controller/v1/address/deleteAddressById"));
+const authentication_1 = __importDefault(require("../../middlewares/authentication"));
+const validationError_1 = __importDefault(require("../../middlewares/validationError"));
+const authorize_1 = __importDefault(require("../../middlewares/authorize"));
+const createAddress_1 = __importDefault(require("../../controller/v1/address/createAddress"));
+const getAddresses_1 = __importDefault(require("../../controller/v1/address/getAddresses"));
+const getAddressById_1 = __importDefault(require("../../controller/v1/address/getAddressById"));
+const updateAddressById_1 = __importDefault(require("../../controller/v1/address/updateAddressById"));
+const deleteAddressById_1 = __importDefault(require("../../controller/v1/address/deleteAddressById"));
 const router = (0, express_1.Router)();
 const createAddressValidation = [
     (0, express_validator_1.body)('client_id')

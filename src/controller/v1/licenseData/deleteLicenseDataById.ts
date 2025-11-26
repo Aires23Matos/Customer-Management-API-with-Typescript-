@@ -1,5 +1,5 @@
-import { logger } from '@/lib/winston';
-import LicenseData from '@/models/licenseData';
+import { logger } from '../../../lib/winston';
+import LicenseData from '../../../models/licenseData';
 import type { Response, Request } from 'express';
 
 const deleteLicenseDataById = async (

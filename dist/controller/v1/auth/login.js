@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jwt_1 = require("src/lib/jwt");
-const winston_1 = require("src/lib/winston");
-const config_1 = __importDefault(require("src/config"));
-const tokens_1 = __importDefault(require("src/models/tokens"));
-const user_1 = __importDefault(require("src/models/user"));
+const winston_1 = require("../../../lib/winston");
+const config_1 = __importDefault(require("../../../config"));
+const tokens_1 = __importDefault(require("../../../models/tokens"));
+const user_1 = __importDefault(require("../../../models/user"));
 const Login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email } = req.body;

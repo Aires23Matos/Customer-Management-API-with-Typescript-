@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = require("jsonwebtoken");
-const winston_1 = require("src/lib/winston");
-const tokens_1 = __importDefault(require("src/models/tokens"));
-const jwt_1 = require("src/lib/jwt");
+const winston_1 = require("../../../lib/winston");
+const tokens_1 = __importDefault(require("../../../models/tokens"));
+const jwt_1 = require("../../../lib/jwt");
 const RefreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.cookies.refreshToken;
     try {

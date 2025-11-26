@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import { param, query, body } from 'express-validator';
-import authentication from '@/middlewares/authentication';
-import ValidationError from '@/middlewares/validationError';
-import authorize from '@/middlewares/authorize';
-import User from '@/models/user';
-import getCurrentUser from '@/controller/v1/user/get_current_user';
-import updateCurrentUser from '@/controller/v1/user/update_current_user';
-import deleteCurrentUser from '@/controller/v1/user/delete_current_user';
-import getAllUsers from '@/controller/v1/user/get_all_users';
-import getUser from '@/controller/v1/user/get_user';
-import deleteUser from '@/controller/v1/user/delete_user';
-import updateUser from '@/controller/v1/user/upadete_user';
+import authentication from '../../middlewares/authentication';
+import ValidationError from '../../middlewares/validationError';
+import authorize from '../../middlewares/authorize';
+import User from '../../models/user';
+import getCurrentUser from '../../controller/v1/user/get_current_user';
+import updateCurrentUser from '../../controller/v1/user/update_current_user';
+import deleteCurrentUser from '../../controller/v1/user/delete_current_user';
+import getAllUsers from '../../controller/v1/user/get_all_users';
+import getUser from '../../controller/v1/user/get_user';
+import deleteUser from '../../controller/v1/user/delete_user';
+import updateUser from '../../controller/v1/user/upadete_user';
 
 const router = Router();
 

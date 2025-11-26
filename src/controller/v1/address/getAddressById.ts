@@ -1,6 +1,6 @@
-import { logger } from "@/lib/winston"
-import Address from "@/models/address"
-import Client from "@/models/client"
+import { logger } from "../../../lib/winston"
+import Address from "../../../models/address"
+import Client from "../../../models/client"
 import type { Response, Request } from "express"
 
 const getAddressById = async (

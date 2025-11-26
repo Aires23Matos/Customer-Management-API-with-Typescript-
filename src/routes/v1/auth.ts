@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 import RefreshToken from '../../controller/v1/auth/refresh_token';
 import Logout from '../../controller/v1/auth/logout';
 import authentication from '../../middlewares/authentication';
-import createClient from '@/controller/v1/client/create_client';
+import createClient from '../../controller/v1/client/create_client';
 
 const router = Router();
 

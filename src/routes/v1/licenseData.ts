@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { body, param, query } from 'express-validator';
-import authentication from '@/middlewares/authentication';
-import ValidationError from '@/middlewares/validationError';
-import authorize from '@/middlewares/authorize';
-import deleteLicenseDataById from '@/controller/v1/licenseData/deleteLicenseDataById';
-import updateLicenseDataById from '@/controller/v1/licenseData/updateLicenseDataById';
-import getLicenseDataById from '@/controller/v1/licenseData/getLicenseDataById';
-import getLicensesData from '@/controller/v1/licenseData/getLicensesData';
-import createLicenseData from '@/controller/v1/licenseData/createLicenseData';
+import authentication from '../../middlewares/authentication';
+import ValidationError from '../../middlewares/validationError';
+import authorize from '../../middlewares/authorize';
+import deleteLicenseDataById from '../../controller/v1/licenseData/deleteLicenseDataById';
+import updateLicenseDataById from '../../controller/v1/licenseData/updateLicenseDataById';
+import getLicenseDataById from '../../controller/v1/licenseData/getLicenseDataById';
+import getLicensesData from '../../controller/v1/licenseData/getLicensesData';
+import createLicenseData from '../../controller/v1/licenseData/createLicenseData';
 
 const router = Router();
 

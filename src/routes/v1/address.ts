@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { body, param, query } from 'express-validator';
-import authentication from '@/middlewares/authentication';
-import ValidationError from '@/middlewares/validationError';
-import authorize from '@/middlewares/authorize';
-import createAddress from '@/controller/v1/address/createAddress';
-import getAddresses from '@/controller/v1/address/getAddresses';
-import getAddressById from '@/controller/v1/address/getAddressById';
-import updateAddressById from '@/controller/v1/address/updateAddressById';
-import deleteAddressById from '@/controller/v1/address/deleteAddressById';
+import authentication from '../../middlewares/authentication';
+import ValidationError from '../../middlewares/validationError';
+import authorize from '../../middlewares/authorize';
+import createAddress from '../../controller/v1/address/createAddress';
+import getAddresses from '../../controller/v1/address/getAddresses';
+import getAddressById from '../../controller/v1/address/getAddressById';
+import updateAddressById from '../../controller/v1/address/updateAddressById';
+import deleteAddressById from '../../controller/v1/address/deleteAddressById';
 
 
 const router = Router();

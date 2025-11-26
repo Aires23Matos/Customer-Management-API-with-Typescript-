@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { param, query, body } from 'express-validator';
-import authentication from '@/middlewares/authentication';
-import ValidationError from '@/middlewares/validationError';
-import authorize from '@/middlewares/authorize';
-import getAllClients from '@/controller/v1/client/getAllClients';
-import getClientById from '@/controller/v1/client/getClientById';
-import updateClient from '@/controller/v1/client/updateClient';
-import deleteClient from '@/controller/v1/client/deleteClient';
+import authentication from '../../middlewares/authentication';
+import ValidationError from '../../middlewares/validationError';
+import authorize from '../../middlewares/authorize';
+import getAllClients from '../../controller/v1/client/getAllClients';
+import getClientById from '../../controller/v1/client/getClientById';
+import updateClient from '../../controller/v1/client/updateClient';
+import deleteClient from '../../controller/v1/client/deleteClient';
 import {
     blockClient,
     unblockClient,

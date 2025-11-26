@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Config from "src/config";
+import Config from "../config";
 import type { ConnectOptions } from "mongoose";
-import { logger } from "src/lib/winston";
+import { logger } from "../lib/winston";
 
 const clientOptions: ConnectOptions = {
     dbName: 'API_Gestor',

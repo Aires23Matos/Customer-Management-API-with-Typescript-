@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const winston_1 = require("@/lib/winston");
-const contact_1 = __importDefault(require("@/models/contact"));
-const client_1 = __importDefault(require("@/models/client"));
+const winston_1 = require("../../../lib/winston");
+const contact_1 = __importDefault(require("../../../models/contact"));
+const client_1 = __importDefault(require("../../../models/client"));
 const getContacts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.userId;
     try {

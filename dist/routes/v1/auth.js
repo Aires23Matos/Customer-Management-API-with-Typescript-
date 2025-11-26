@@ -22,7 +22,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const refresh_token_1 = __importDefault(require("../../controller/v1/auth/refresh_token"));
 const logout_1 = __importDefault(require("../../controller/v1/auth/logout"));
 const authentication_1 = __importDefault(require("../../middlewares/authentication"));
-const create_client_1 = __importDefault(require("@/controller/v1/client/create_client"));
+const create_client_1 = __importDefault(require("../../controller/v1/client/create_client"));
 const router = (0, express_1.Router)();
 router.post('/register', (0, express_validator_1.body)('email')
     .trim()

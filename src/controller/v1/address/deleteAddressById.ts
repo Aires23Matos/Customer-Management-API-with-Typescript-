@@ -1,5 +1,5 @@
-import { logger } from "@/lib/winston"
-import Address from "@/models/address"
+import { logger } from "../../../lib/winston"
+import Address from "../../../models/address"
 import type { Response, Request } from "express"
 
 const deleteAddressById = async (

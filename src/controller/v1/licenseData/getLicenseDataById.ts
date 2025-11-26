@@ -1,6 +1,6 @@
-import { logger } from '@/lib/winston';
-import LicenseData from '@/models/licenseData';
-import Client from '@/models/client';
+import { logger } from '../../../lib/winston';
+import LicenseData from '../../../models/licenseData';
+import Client from '../../../models/client';
 import type { Response, Request } from 'express';
 
 const getLicenseDataById = async (

@@ -1,9 +1,9 @@
 import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
-import { logger } from "src/lib/winston";
-import Token from "src/models/tokens";
+import { logger } from "../../../lib/winston";
+import Token from "../../../models/tokens";
 import type { Response, Request } from "express";
 import {Types} from 'mongoose';
-import { verifyRefreshToken, generateAccessToken } from "src/lib/jwt";
+import { verifyRefreshToken, generateAccessToken } from "../../../lib/jwt";
 
 const RefreshToken = async(req:Request, res:Response) => {
     const refreshToken = req.cookies.refreshToken as string;

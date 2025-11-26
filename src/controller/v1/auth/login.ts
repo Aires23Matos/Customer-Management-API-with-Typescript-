@@ -1,8 +1,8 @@
 import { generateAccessToken, generateRefreshToken } from "src/lib/jwt";
-import { logger } from "src/lib/winston";
-import Config from "src/config";
-import Token from "src/models/tokens";
-import User from "src/models/user";
+import { logger } from "../../../lib/winston";
+import Config from "../../../config";
+import Token from "../../../models/tokens";
+import User from "../../../models/user";
 import type { Request, Response } from "express";
 import type { IUser} from 'src/models/user';
 

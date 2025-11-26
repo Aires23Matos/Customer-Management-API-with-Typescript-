@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dompurify_1 = __importDefault(require("dompurify"));
 const jsdom_1 = require("jsdom");
-const winston_1 = require("@/lib/winston");
-const contact_1 = __importDefault(require("@/models/contact"));
+const winston_1 = require("../../../lib/winston");
+const contact_1 = __importDefault(require("../../../models/contact"));
 const window = new jsdom_1.JSDOM('').window;
 const purify = (0, dompurify_1.default)(window);
 const updateContactById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

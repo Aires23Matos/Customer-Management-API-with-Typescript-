@@ -1,7 +1,7 @@
 import DOMPurify from "dompurify"
 import { JSDOM } from "jsdom"
-import { logger } from "@/lib/winston"
-import Accountable from "@/models/accountable"
+import { logger } from "../../../lib/winston"
+import Accountable from "../../../models/accountable"
 import type { Response, Request } from "express"
 
 const window = new JSDOM('').window;

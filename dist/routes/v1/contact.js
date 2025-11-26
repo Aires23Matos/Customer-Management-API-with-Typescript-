@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const authentication_1 = __importDefault(require("@/middlewares/authentication"));
-const validationError_1 = __importDefault(require("@/middlewares/validationError"));
-const authorize_1 = __importDefault(require("@/middlewares/authorize"));
-const createContact_1 = __importDefault(require("@/controller/v1/contact/createContact"));
-const getContacts_1 = __importDefault(require("@/controller/v1/contact/getContacts"));
-const getContactById_1 = __importDefault(require("@/controller/v1/contact/getContactById"));
-const updateContactById_1 = __importDefault(require("@/controller/v1/contact/updateContactById"));
-const deleteContactById_1 = __importDefault(require("@/controller/v1/contact/deleteContactById"));
+const authentication_1 = __importDefault(require("../../middlewares/authentication"));
+const validationError_1 = __importDefault(require("../../middlewares/validationError"));
+const authorize_1 = __importDefault(require("../../middlewares/authorize"));
+const createContact_1 = __importDefault(require("../../controller/v1/contact/createContact"));
+const getContacts_1 = __importDefault(require("../../controller/v1/contact/getContacts"));
+const getContactById_1 = __importDefault(require("../../controller/v1/contact/getContactById"));
+const updateContactById_1 = __importDefault(require("../../controller/v1/contact/updateContactById"));
+const deleteContactById_1 = __importDefault(require("../../controller/v1/contact/deleteContactById"));
 const router = (0, express_1.Router)();
 const createContactValidation = [
     (0, express_validator_1.body)('client_id')

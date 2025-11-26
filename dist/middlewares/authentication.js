@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = require("jsonwebtoken");
-const jwt_1 = require("src/lib/jwt");
-const winston_1 = require("src/lib/winston");
+const jwt_1 = require("../lib/jwt");
+const winston_1 = require("../lib/winston");
 const authentication = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!(authHeader === null || authHeader === void 0 ? void 0 : authHeader.startsWith('Bearer'))) {

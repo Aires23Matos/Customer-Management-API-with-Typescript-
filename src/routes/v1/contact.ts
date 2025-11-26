@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { body, param, query } from 'express-validator';
-import authentication from '@/middlewares/authentication';
-import ValidationError from '@/middlewares/validationError';
-import authorize from '@/middlewares/authorize';
-import createContact from '@/controller/v1/contact/createContact';
-import getContacts from '@/controller/v1/contact/getContacts';
-import getContactById from '@/controller/v1/contact/getContactById';
-import updateContactById from '@/controller/v1/contact/updateContactById';
-import deleteContactById from '@/controller/v1/contact/deleteContactById';
+import authentication from '../../middlewares/authentication';
+import ValidationError from '../../middlewares/validationError';
+import authorize from '../../middlewares/authorize';
+import createContact from '../../controller/v1/contact/createContact';
+import getContacts from '../../controller/v1/contact/getContacts';
+import getContactById from '../../controller/v1/contact/getContactById';
+import updateContactById from '../../controller/v1/contact/updateContactById';
+import deleteContactById from '../../controller/v1/contact/deleteContactById';
 
 const router = Router();
 

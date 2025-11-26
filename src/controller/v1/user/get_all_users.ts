@@ -1,7 +1,7 @@
-import { logger } from "@/lib/winston";
-import User from "@/models/user";
+import { logger } from "../../../lib/winston";
+import User from "../../../models/user";
 import type { Response, Request} from 'express';
-import Config from "@/config";
+import Config from "../../../config";
 
 const getAllUsers = async (
     req: Request,

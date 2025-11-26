@@ -1,5 +1,5 @@
-import { logger } from '@/lib/winston';
-import User from '@/models/user';
+import { logger } from '../../../lib/winston';
+import User from '../../../models/user';
 import type { Response, Request } from 'express';
 import bcrypt from 'bcrypt';
 

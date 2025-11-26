@@ -1,5 +1,5 @@
-import { logger } from "@/lib/winston"
-import Accountable from "@/models/accountable"
+import { logger } from "../../../lib/winston"
+import Accountable from "../../../models/accountable"
 import type { Response, Request } from "express"
 
 const deleteAccountableById = async (

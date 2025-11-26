@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { body, param, query } from 'express-validator';
-import authentication from '@/middlewares/authentication';
-import ValidationError from '@/middlewares/validationError';
-import authorize from '@/middlewares/authorize';
-import createAccountable from '@/controller/v1/accountable/createAccountable';
-import getAccountables from '@/controller/v1/accountable/getAccountables';
-import getAccountableById from '@/controller/v1/accountable/getAccountableById';
-import updateAccountableById from '@/controller/v1/accountable/updateAccountableById';
-import deleteAccountableById from '@/controller/v1/accountable/deleteAccountableById';
+import authentication from '../../middlewares/authentication';
+import ValidationError from '../../middlewares/validationError';
+import authorize from '../../middlewares/authorize';
+import createAccountable from '../../controller/v1/accountable/createAccountable';
+import getAccountables from '../../controller/v1/accountable/getAccountables';
+import getAccountableById from '../../controller/v1/accountable/getAccountableById';
+import updateAccountableById from '../../controller/v1/accountable/updateAccountableById';
+import deleteAccountableById from '../../controller/v1/accountable/deleteAccountableById';
 
 
 const router = Router();

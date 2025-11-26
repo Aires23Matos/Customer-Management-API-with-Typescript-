@@ -1,5 +1,5 @@
-import { logger } from "@/lib/winston";
-import User from "@/models/user";
+import { logger } from "../../../lib/winston";
+import User from "../../../models/user";
 import type { Request, Response } from "express";
 import { param } from 'express-validator';
 

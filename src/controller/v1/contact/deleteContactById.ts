@@ -1,5 +1,5 @@
-import { logger } from "@/lib/winston"
-import Contact from "@/models/contact"
+import { logger } from "../../../lib/winston"
+import Contact from "../../../models/contact"
 import type { Response, Request } from "express"
 
 const deleteContactById = async (

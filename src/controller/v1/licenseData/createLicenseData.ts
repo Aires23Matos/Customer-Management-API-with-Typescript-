@@ -1,8 +1,8 @@
 import DOMPurify from "dompurify"
 import { JSDOM } from "jsdom"
-import { logger } from "@/lib/winston"
-import LicenseData from "@/models/licenseData"
-import Client from "@/models/client"
+import { logger } from "../../../lib/winston"
+import LicenseData from "../../../models/licenseData"
+import Client from "../../../models/client"
 import type { Response, Request } from "express"
 
 const window = new JSDOM('').window;

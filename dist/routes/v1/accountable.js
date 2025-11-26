@@ -5,14 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const express_validator_1 = require("express-validator");
-const authentication_1 = __importDefault(require("@/middlewares/authentication"));
-const validationError_1 = __importDefault(require("@/middlewares/validationError"));
-const authorize_1 = __importDefault(require("@/middlewares/authorize"));
-const createAccountable_1 = __importDefault(require("@/controller/v1/accountable/createAccountable"));
-const getAccountables_1 = __importDefault(require("@/controller/v1/accountable/getAccountables"));
-const getAccountableById_1 = __importDefault(require("@/controller/v1/accountable/getAccountableById"));
-const updateAccountableById_1 = __importDefault(require("@/controller/v1/accountable/updateAccountableById"));
-const deleteAccountableById_1 = __importDefault(require("@/controller/v1/accountable/deleteAccountableById"));
+const authentication_1 = __importDefault(require("../../middlewares/authentication"));
+const validationError_1 = __importDefault(require("../../middlewares/validationError"));
+const authorize_1 = __importDefault(require("../../middlewares/authorize"));
+const createAccountable_1 = __importDefault(require("../../controller/v1/accountable/createAccountable"));
+const getAccountables_1 = __importDefault(require("../../controller/v1/accountable/getAccountables"));
+const getAccountableById_1 = __importDefault(require("../../controller/v1/accountable/getAccountableById"));
+const updateAccountableById_1 = __importDefault(require("../../controller/v1/accountable/updateAccountableById"));
+const deleteAccountableById_1 = __importDefault(require("../../controller/v1/accountable/deleteAccountableById"));
 const router = (0, express_1.Router)();
 const createAccountableValidation = [
     (0, express_validator_1.body)('client_id')
