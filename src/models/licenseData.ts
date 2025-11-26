@@ -13,6 +13,7 @@ export interface ILicenseData extends Document {
 	validade_em_mes: number;
 	conta_pago: 'Pago' | 'Não Pago' | 'Pendente' | 'Parcial';
 	valor_pago: number;
+	valor_total?: number;
 	estado: 'ativa' | 'expirada' | 'suspensa' | 'pendente';
 	publishedAt?: Date;
 }
@@ -112,6 +113,17 @@ const licenseDataSchema = new Schema<ILicenseData>(
 			type: Number,
 			default: 0,
 			min: [0, 'Valor pago não pode ser negativo'],
+			validate: {
+				validator: function (value: number) {
+					return Number.isFinite(value) && value >= 0;
+				},
+				message: 'Valor pago deve ser um número válido e não negativo',
+			},
+		},
+		valor_total: {
+			type: Number,
+			default: 0,
+			min: [0, 'Valor total não pode ser negativo'],
 			validate: {
 				validator: function (value: number) {
 					return Number.isFinite(value) && value >= 0;

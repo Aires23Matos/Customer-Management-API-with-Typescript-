@@ -52,10 +52,78 @@ const updateLicenseDataById = async (
             validade_em_mes,
             conta_pago,
             valor_pago,
+            valor_total,
             estado
         } = req.body;
 
         const updateData: any = {};
+
+        // VALIDAÇÃO ESPECÍFICA PARA MUDANÇA DE PAGO PARA PARCIAL
+        const contaPagoAtual = existingLicense.conta_pago;
+        const contaPagoNovo = conta_pago !== undefined ? conta_pago : contaPagoAtual;
+
+        // Se está mudando de "Pago" para "Parcial", validar campos obrigatórios
+        if (contaPagoAtual === 'Pago' && contaPagoNovo === 'Parcial') {
+            // Verificar se valor_total foi fornecido
+            if (valor_total === undefined || valor_total === null) {
+                res.status(400).json({
+                    code: 'MissingRequiredField',
+                    message: 'Ao mudar de "Pago" para "Parcial", o campo "valor_total" é obrigatório'
+                });
+                return;
+            }
+
+            // Validar valor_total
+            if (valor_total <= 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Valor total deve ser maior que zero para pagamento parcial'
+                });
+                return;
+            }
+
+            // Validar valor_pago em relação ao valor_total
+            const valorPagoFinal = valor_pago !== undefined ? valor_pago : existingLicense.valor_pago;
+            if (valorPagoFinal >= valor_total) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para pagamento parcial, o valor pago deve ser menor que o valor total'
+                });
+                return;
+            }
+
+            // Adicionar valor_total aos dados de atualização
+            updateData.valor_total = valor_total;
+        }
+
+        // Se está mudando para "Parcial" de qualquer outro status, validar campos
+        if (contaPagoNovo === 'Parcial' && contaPagoAtual !== 'Parcial') {
+            // Garantir que valor_total existe e é válido
+            const valorTotalFinal = valor_total !== undefined ? valor_total : existingLicense.valor_total;
+            
+            if (!valorTotalFinal || valorTotalFinal <= 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Valor total é obrigatório e deve ser maior que zero para pagamento parcial'
+                });
+                return;
+            }
+
+            // Validar valor_pago em relação ao valor_total
+            const valorPagoFinal = valor_pago !== undefined ? valor_pago : existingLicense.valor_pago;
+            if (valorPagoFinal >= valorTotalFinal) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para pagamento parcial, o valor pago deve ser menor que o valor total'
+                });
+                return;
+            }
+
+            // Se valor_total não foi fornecido na requisição mas existe na licença, manter
+            if (valor_total !== undefined) {
+                updateData.valor_total = valor_total;
+            }
+        }
 
         // Atualizar campos se fornecidos
         if (tecnico !== undefined) {
@@ -135,6 +203,17 @@ const updateLicenseDataById = async (
                 return;
             }
             updateData.valor_pago = valor_pago;
+        }
+
+        if (valor_total !== undefined) {
+            if (valor_total < 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Valor total não pode ser negativo'
+                });
+                return;
+            }
+            updateData.valor_total = valor_total;
         }
 
         if (conta_pago !== undefined) {
@@ -254,9 +333,10 @@ const updateLicenseDataById = async (
             }
         }
 
-        // Validar consistência do pagamento (CORRIGIDO)
+        // Validar consistência do pagamento (ATUALIZADO)
         const contaPagoFinal = updateData.conta_pago !== undefined ? updateData.conta_pago : existingLicense.conta_pago;
         const valorPagoFinal = updateData.valor_pago !== undefined ? updateData.valor_pago : existingLicense.valor_pago;
+        const valorTotalFinal = updateData.valor_total !== undefined ? updateData.valor_total : existingLicense.valor_total;
 
         if (contaPagoFinal === 'Pago' && valorPagoFinal <= 0) {
             res.status(400).json({
@@ -266,12 +346,31 @@ const updateLicenseDataById = async (
             return;
         }
 
-        if (contaPagoFinal === 'Parcial' && valorPagoFinal <= 0) {
-            res.status(400).json({
-                code: 'InvalidField',
-                message: 'Licença marcada como parcial deve ter valor pago maior que 0'
-            });
-            return;
+        if (contaPagoFinal === 'Parcial') {
+            // Validar campos obrigatórios para pagamento parcial
+            if (!valorTotalFinal || valorTotalFinal <= 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para pagamento parcial, o valor total é obrigatório e deve ser maior que zero'
+                });
+                return;
+            }
+
+            if (valorPagoFinal <= 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Licença marcada como parcial deve ter valor pago maior que 0'
+                });
+                return;
+            }
+
+            if (valorPagoFinal >= valorTotalFinal) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para pagamento parcial, o valor pago deve ser menor que o valor total'
+                });
+                return;
+            }
         }
 
         // Se não há dados para atualizar
@@ -306,7 +405,8 @@ const updateLicenseDataById = async (
             userId,
             license_id,
             client_id: existingLicense.client_id,
-            updatedFields: Object.keys(updateData)
+            updatedFields: Object.keys(updateData),
+            paymentStatusChange: contaPagoAtual !== contaPagoNovo ? `${contaPagoAtual} → ${contaPagoNovo}` : null
         });
 
         res.status(200).json({

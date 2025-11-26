@@ -30,28 +30,27 @@ const corsOption: CorsOptions = {
 	},
 };
 
-//App CORS middleware
+
 app.use(cors(corsOption));
 
-// Enable JSON request body parsing
+
 app.use(express.json());
 
-//Enable URL-encoded request body parsing with extended mode
-//`extended: true` allows rich objects and arrays via queryString library
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//Enable responsive compression to reduce payload size and improve performance
 app.use(
 	compression({
 		threshold: 1024,
 	}),
 );
 
-//Use Helmet to enhance security by setting various HTTP headers
+
 app.use(helmet());
 
-//Apply rate limiting middleware to prevent excessive requests and enhance security
+
 app.use(Limiter);
 
 //middleware

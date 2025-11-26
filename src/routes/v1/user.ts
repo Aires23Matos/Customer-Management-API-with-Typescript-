@@ -10,6 +10,7 @@ import deleteCurrentUser from '@/controller/v1/user/delete_current_user';
 import getAllUsers from '@/controller/v1/user/get_all_users';
 import getUser from '@/controller/v1/user/get_user';
 import deleteUser from '@/controller/v1/user/delete_user';
+import updateUser from '@/controller/v1/user/upadete_user';
 
 const router = Router();
 
@@ -53,6 +54,46 @@ router.get(
 	ValidationError,
 	getUser,
 );
+
+router.patch('updateuser/:id', authentication,
+	authorize(['admin', 'user']),
+	body('username')
+		.optional()
+		.trim()
+		.isLength({ max: 20 })
+		.withMessage('O nome de usuário deve ter menos de 20 caracteres')
+		.custom(async (value) => {
+			const userExist = await User.exists({ username: value });
+			if (userExist) {
+				throw Error('Este nome de utilizador já está a ser utilizado');
+			}
+		}),
+	body('email')
+		.optional()
+		.isLength({ max: 50 })
+		.withMessage('O e-mail deve ter menos de 50 caracteres')
+		.isEmail()
+		.withMessage('Endereço de e-mail inválido')
+		.custom(async (value) => {
+			const useExist = await User.exists({ email: value });
+			if (useExist) {
+				throw Error('Este e-mail já está em uso');
+			}
+		}),
+	body('password')
+		.optional()
+		.isLength({ min: 8 })
+		.withMessage('A palavra-passe tem de ter, pelo menos, 8 caractere'),
+	body('first_name')
+		.optional()
+		.isLength({ max: 20 })
+		.withMessage('O nome próprio deve ter menos de 20 caracteres'),
+	body('last_name')
+		.optional()
+		.isLength({ max: 20 })
+		.withMessage('O sobrenome deve ter menos de 20 caracteres'),
+	ValidationError,	
+	updateUser);
 
 router.put(
 	'/update/:current_id',

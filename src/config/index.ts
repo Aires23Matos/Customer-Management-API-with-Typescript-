@@ -13,7 +13,7 @@ const Config = {
 	access_token_expiry:process.env.ACCESS_TOKEN_EXPIRY as ms.StringValue,
 	refresh_token_expiry:process.env.REFRESH_TOKEN_EXPIRY as ms.StringValue,
 	whitelist_admins_mail: process.env.SECRET_EMAIL || 'testeemezema@gmail.com',
-	
+	admin_registration_code: process.env.ADMIN_REGISTRATION_CODE || 'ADMIN12345',
 	defaultResLimit: 20,
 	defaultResOffset: 0
 };

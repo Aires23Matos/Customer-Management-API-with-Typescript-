@@ -103,7 +103,7 @@ const updateLicenseDataValidation = [
 		.withMessage('Validade deve ser entre 1 e 120 meses'),
 	body('conta_pago')
 		.optional()
-		.isIn(['Pago', 'Não Pago', 'Pendente'])
+		.isIn(['Pago', 'Não Pago', 'Pendente', 'Parcial'])
 		.withMessage('Estado deve ser: Pago, Não Pago ou Pendente'),
 	body('valor_pago')
 		.optional()
@@ -135,7 +135,7 @@ const licensesPaginationValidation = [
 		.withMessage('Estado deve ser: ativa, expirada, suspensa ou pendente'),
 	query('conta_pago')
 		.optional()
-		.isIn(['Pago', 'Não Pago', 'Pendente'])
+		.isIn(['Pago', 'Não Pago', 'Pendente', 'Parcial'])
 		.withMessage('Estado deve ser: Pago, Não Pago ou Pendente'),
 	query('expiradas')
 		.optional()
@@ -144,7 +144,7 @@ const licensesPaginationValidation = [
 	query('search').optional().trim().escape(),
 ];
 
-// Rotas de LicenseData
+
 router.post(
 	'/register',
 	authentication,

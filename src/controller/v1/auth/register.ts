@@ -2,7 +2,6 @@ import { logger } from "src/lib/winston";
 import Config from "src/config";
 import User from "src/models/user";
 import Token from "src/models/tokens";
-
 import type { IUser } from "src/models/user";
 import type {Request, Response} from 'express';
 import { genUsername } from "src/utils";
@@ -11,21 +10,33 @@ import { generateAccessToken, generateRefreshToken } from "src/lib/jwt";
 type UserData = Pick<IUser, 'email' |'password'|'role'>& {
     firstName?: string;
     lastName?: string;
+    adminCode?: string;
 }
 
 const Register = async(req:Request , res: Response): Promise<void> => {
-    const {email, password, role, firstName, lastName} = req.body as UserData;
+    const {email, password, role, firstName, lastName, adminCode} = req.body as UserData;
 
-    console.log('Dados recebidos:', {email, password, role, firstName, lastName});
+    console.log('Dados recebidos:', {email, password, role, firstName, lastName, adminCode});
     
-    if(role === 'admin' && !Config.whitelist_admins_mail.includes(email)){
-        res.status(403).json({
-            code: 'AuthorizationError',
-            message: 'Não é possível registar-se como administrador'
-        });
+    // Validação para registo como admin
+    if(role === 'admin') {
+        if (!adminCode) {
+            res.status(400).json({
+                code: 'AdminCodeRequired',
+                message: 'Código de administrador é obrigatório'
+            });
+            return;
+        }
 
-        logger.warn(`Usuário com e-mail ${email} tentou se registrar como administrador, mas não está na lista branca`);
-        return;
+        if (adminCode !== Config.admin_registration_code) {
+            res.status(403).json({
+                code: 'InvalidAdminCode',
+                message: 'Código de administrador inválido'
+            });
+
+            logger.warn(`Tentativa de registo como administrador com código inválido: ${adminCode}`);
+            return;
+        }
     }
 
     try{
@@ -84,7 +95,7 @@ const Register = async(req:Request , res: Response): Promise<void> => {
     
         console.error('Erro detalhado no registo:', err);
         
-        // Melhorar o logging do erro
+        
         logger.error('Erro durante o registo do utilizador', { 
             error: err.message,
             stack: err.stack,

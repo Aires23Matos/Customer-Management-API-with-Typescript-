@@ -11,7 +11,7 @@ import deleteContactById from '@/controller/v1/contact/deleteContactById';
 
 const router = Router();
 
-// Validações para Contactos
+
 const createContactValidation = [
     body('client_id')
         .notEmpty().withMessage('client_id é obrigatório')
@@ -105,7 +105,7 @@ const contactsPaginationValidation = [
         .isIn(['asc', 'desc']).withMessage('Ordem de ordenação deve ser asc ou desc')
 ];
 
-// Rotas de Contactos
+
 router.post(
     '/register',
     authentication,

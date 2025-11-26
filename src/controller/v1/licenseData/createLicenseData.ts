@@ -35,6 +35,7 @@ const createLicenseData = async (
             validade_em_mes,
             conta_pago = 'Pendente',
             valor_pago = 0,
+            valor_total = 0,
             estado = 'ativa'
         } = req.body;
 
@@ -116,6 +117,97 @@ const createLicenseData = async (
             return;
         }
 
+        // Validar valor total
+        if (valor_total < 0) {
+            res.status(400).json({
+                code: 'InvalidField',
+                message: 'Valor total não pode ser negativo'
+            });
+            return;
+        }
+
+        // VALIDAÇÃO ESPECÍFICA PARA STATUS "Parcial"
+        if (conta_pago === 'Parcial') {
+            // Validar que valor_total é maior que zero
+            if (valor_total <= 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Valor total deve ser maior que zero para pagamento parcial'
+                });
+                return;
+            }
+
+            // Validar que valor_pago não é maior que valor_total
+            if (valor_pago > valor_total) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Valor pago não pode ser maior que o valor total'
+                });
+                return;
+            }
+
+            // Validar que valor_pago é menor que valor_total (não pode ser igual)
+            if (valor_pago === valor_total) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para pagamento parcial, o valor pago deve ser menor que o valor total. Se o valor pago for igual ao total, o status deve ser "Pago".'
+                });
+                return;
+            }
+
+            // Validar que valor_pago é maior que zero para pagamento parcial
+            if (valor_pago <= 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para pagamento parcial, o valor pago deve ser maior que zero'
+                });
+                return;
+            }
+        }
+
+        // Validações para status "Pago"
+        if (conta_pago === 'Pago') {
+            // Se é pago, valor_pago deve ser igual a valor_total (se valor_total for definido)
+            if (valor_total > 0 && valor_pago !== valor_total) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para status "Pago", o valor pago deve ser igual ao valor total'
+                });
+                return;
+            }
+
+            // Se valor_total não foi definido mas status é "Pago", definir valor_total igual a valor_pago
+            if (valor_total === 0 && valor_pago > 0) {
+                // Esta lógica será aplicada na criação do documento
+                // Apenas validamos que se status é "Pago", então valor_pago deve ser > 0
+                if (valor_pago <= 0) {
+                    res.status(400).json({
+                        code: 'InvalidField',
+                        message: 'Para status "Pago", o valor pago deve ser maior que zero'
+                    });
+                    return;
+                }
+            }
+        }
+
+        // Validações para status "Não Pago"
+        if (conta_pago === 'Não Pago') {
+            // Se não é pago, valor_pago deve ser zero
+            if (valor_pago !== 0) {
+                res.status(400).json({
+                    code: 'InvalidField',
+                    message: 'Para status "Não Pago", o valor pago deve ser zero'
+                });
+                return;
+            }
+        }
+
+        // Validações para status "Pendente"
+        if (conta_pago === 'Pendente') {
+            // Para pendente, podemos ter valor_pago > 0 mas não obrigatório
+            // Apenas validamos que não seja negativo (já validado acima)
+        }
+
         // Validar datas
         const dataInstalacao = new Date(data_da_instalacao);
         const dataAtivacao = new Date(data_da_ativacao);
@@ -155,6 +247,26 @@ const createLicenseData = async (
             return;
         }
 
+        // Ajustar automaticamente o estado se a licença estiver expirada
+        let estadoFinal = estado;
+        if (dataExpiracao < new Date() && estado === 'ativa') {
+            estadoFinal = 'expirada';
+        }
+
+        // Ajustar valor_total para status "Pago" se necessário
+        let valorTotalFinal = valor_total;
+        let valorPagoFinal = valor_pago;
+
+        // Se status é "Pago" e valor_total é 0, definir valor_total igual a valor_pago
+        if (conta_pago === 'Pago' && valor_total === 0 && valor_pago > 0) {
+            valorTotalFinal = valor_pago;
+        }
+
+        // Se status é "Pago" e valor_total foi definido, garantir que valor_pago é igual
+        if (conta_pago === 'Pago' && valor_total > 0) {
+            valorPagoFinal = valor_total;
+        }
+
         // Criar licença
         const novaLicense = await LicenseData.create({
             client_id,
@@ -164,15 +276,19 @@ const createLicenseData = async (
             data_da_expiracao: dataExpiracao,
             validade_em_mes,
             conta_pago,
-            valor_pago,
-            estado
+            valor_pago: valorPagoFinal,
+            valor_total: valorTotalFinal,
+            estado: estadoFinal
         });
 
         logger.info('Licença criada com sucesso', {
             userId,
             client_id,
             license_id: novaLicense._id,
-            numeroLicenca: sanitizedData.numeroLicenca
+            numeroLicenca: sanitizedData.numeroLicenca,
+            conta_pago,
+            valor_pago: valorPagoFinal,
+            valor_total: valorTotalFinal
         });
 
         res.status(201).json({

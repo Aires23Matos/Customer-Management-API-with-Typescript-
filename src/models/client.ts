@@ -1,11 +1,18 @@
+// models/client.ts
 import { Schema, model, Types } from 'mongoose';
 
 export interface IClient {
 	_id?: Types.ObjectId;
 	client_id: string;
 	clientName: string;
-	nif: string; // Alterado de number para string
+	nif: string;
 	publishedAt?: Date;
+	isBlocked?: boolean;
+	blockedAt?: Date;
+	blockedBy?: string;
+	unblockedAt?: Date;
+	unblockedBy?: string;
+	blockReason?: string;
 }
 
 const clientSchema = new Schema<IClient>(
@@ -15,7 +22,6 @@ const clientSchema = new Schema<IClient>(
 			required: [true, 'O client_id é obrigatório'],
 			unique: [true, 'O client_id deve ser único'],
 			default: function () {
-				// Gera um ID único baseado no timestamp + random
 				return `CLI${Date.now()}${Math.random().toString(36).substr(2, 9)}`;
 			},
 		},
@@ -26,17 +32,37 @@ const clientSchema = new Schema<IClient>(
 			trim: true,
 		},
 		nif: {
-			type: String, // Alterado de Number para String
+			type: String,
 			required: [true, 'O NIF é obrigatório'],
 			validate: {
 				validator: function (v: string) {
-					// Permite 10 dígitos OU 14 caracteres alfanuméricos
 					return /^(?:\d{10}|[A-Za-z0-9]{14})$/.test(v);
 				},
 				message:
 					'O NIF deve ter exatamente 10 dígitos numéricos OU 14 caracteres alfanuméricos.',
 			},
 			unique: [true, 'Este NIF já está registado'],
+			trim: true,
+		},
+		isBlocked: {
+			type: Boolean,
+			default: false,
+		},
+		blockedAt: {
+			type: Date,
+		},
+		blockedBy: {
+			type: String,
+		},
+		unblockedAt: {
+			type: Date,
+		},
+		unblockedBy: {
+			type: String,
+		},
+		blockReason: {
+			type: String,
+			maxLength: [500, 'O motivo do bloqueio deve ter menos de 500 caracteres'],
 			trim: true,
 		},
 	},
