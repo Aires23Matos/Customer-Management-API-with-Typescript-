@@ -53,10 +53,10 @@ const createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             numero_da_casa: purify.sanitize(numero_da_casa.toString().trim()),
             ponto_de_referencia: purify.sanitize(ponto_de_referencia.toString().trim())
         };
-        if (sanitizedData.provincia.length > 10) {
+        if (sanitizedData.provincia.length > 50) {
             res.status(400).json({
                 code: 'InvalidField',
-                message: 'A provincia deve ter menos de 10 caracteres'
+                message: 'A provincia deve ter menos de 50 caracteres'
             });
             return;
         }

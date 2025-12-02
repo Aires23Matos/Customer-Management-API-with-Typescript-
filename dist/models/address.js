@@ -10,7 +10,7 @@ const addressSchema = new mongoose_1.Schema({
     provincia: {
         type: String,
         required: [true, 'A morada é obrigatória'],
-        maxLength: [10, 'A morada deve ter menos de 10 caracteres'],
+        maxLength: [50, 'A morada deve ter menos de 10 caracteres'],
     },
     municipio: {
         type: String,

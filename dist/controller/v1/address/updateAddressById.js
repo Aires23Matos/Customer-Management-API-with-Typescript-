@@ -48,10 +48,10 @@ const updateAddressById = (req, res) => __awaiter(void 0, void 0, void 0, functi
         const updateData = {};
         if (provincia) {
             const sanitizedProvincia = purify.sanitize(provincia.toString().trim());
-            if (sanitizedProvincia.length > 10) {
+            if (sanitizedProvincia.length > 50) {
                 res.status(400).json({
                     code: 'InvalidField',
-                    message: 'A provincia deve ter menos de 10 caracteres'
+                    message: 'A provincia deve ter menos de 50 caracteres'
                 });
                 return;
             }
