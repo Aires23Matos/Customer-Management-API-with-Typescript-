@@ -63,10 +63,10 @@ const createAddress = async (
         };
 
         // Validar comprimentos máximos
-        if (sanitizedData.provincia.length > 10) {
+        if (sanitizedData.provincia.length > 50) {
             res.status(400).json({
                 code: 'InvalidField',
-                message: 'A provincia deve ter menos de 10 caracteres'
+                message: 'A provincia deve ter menos de 50 caracteres'
             });
             return;
         }
